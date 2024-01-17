@@ -1,25 +1,28 @@
 const express = require('express');
+const logger = require('./logger');
 
 const app = express();
 
 //request > middleware > response
+//middle ware is in separate file
+//app use for middleware function to be applied to all routes
 
-//middleware function
-const logger = (req, res, next) => {
-  const method = req.method;
-  const url = req.url;
-  const time = new Date().getFullYear();
-  console.log(method, url, time);
-  //pass onto next or else error
-  next();
-};
+app.use('/api', logger);
 
-app.get('/', logger, (req, res) => {
+app.get('/', (req, res) => {
   res.send('Home');
 });
 
-app.get('/about', logger, (req, res) => {
+app.get('/about', (req, res) => {
   res.send('About');
+});
+
+app.get('/api/products', (req, res) => {
+  res.send('products');
+});
+
+app.get('/api/items', (req, res) => {
+  res.send('items');
 });
 
 app.listen(5000, () => {
