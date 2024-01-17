@@ -7,6 +7,7 @@ const app = express();
 //middle ware is in separate file
 //app use for middleware function to be applied to all routes
 
+//for any paths after api if included path
 app.use('/api', logger);
 
 app.get('/', (req, res) => {
