@@ -29,6 +29,17 @@ app.post('/api/people', (req, res) => {
   return res.status(200).json({ success: true, person: name });
 });
 
+app.post('/api/tc/people', (req, res) => {
+  const { name } = req.body;
+  //handle blanks on server
+  if (!name) {
+    return res.status(400).json({ success: false, msg: 'please enter name' });
+  }
+  return res
+    .status(200)
+    .json({ success: true, data: [...people, { id: 6, name }] });
+});
+
 //post - insert data
 app.post('/login', (req, res) => {
   const { name } = req.body;
