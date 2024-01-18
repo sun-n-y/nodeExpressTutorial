@@ -18,7 +18,7 @@ app.get('/api/people', (req, res) => {
   res.end();
 });
 
-//post with javascript
+//post with javascript - insert data
 app.post('/api/people', (req, res) => {
   const { name } = req.body;
   //handle blanks on server
@@ -29,6 +29,7 @@ app.post('/api/people', (req, res) => {
   return res.status(200).json({ success: true, person: name });
 });
 
+//post using thunder client - insert data
 app.post('/api/tc/people', (req, res) => {
   const { name } = req.body;
   //handle blanks on server
@@ -40,7 +41,7 @@ app.post('/api/tc/people', (req, res) => {
     .json({ success: true, data: [...people, { id: 6, name }] });
 });
 
-//post - insert data
+//post with form element - insert data
 app.post('/login', (req, res) => {
   const { name } = req.body;
   if (name) {
@@ -49,6 +50,27 @@ app.post('/login', (req, res) => {
 
   //handle blanks on server
   res.status(401).send('please provide value');
+});
+
+//put - update/edit data
+app.put('/api/people/:id', (req, res) => {
+  const { id } = req.params;
+  const { name } = req.body;
+
+  const person = people.find((person) => person.id === Number(id));
+  if (!person) {
+    return res
+      .status(400)
+      .json({ success: false, msg: `no person with id ${id}` });
+  }
+
+  const newPeople = people.map((person) => {
+    if (person.id === Number(id)) {
+      person.name = name;
+    }
+    return person;
+  });
+  res.status(200).json({ success: true, data: newPeople });
 });
 
 app.listen(5000, () => {
