@@ -73,6 +73,22 @@ app.put('/api/people/:id', (req, res) => {
   res.status(200).json({ success: true, data: newPeople });
 });
 
+//delete person from array
+app.delete('/api/people/:id', (req, res) => {
+  const person = people.find((person) => person.id === Number(req.params.id));
+  if (!person) {
+    return res
+      .status(400)
+      .json({ success: false, msg: `no person with, id: ${req.params.id}` });
+  }
+
+  const newPeople = people.filter((person) => {
+    return person.id != Number(req.params.id);
+  });
+
+  res.status(200).json({ success: true, data: newPeople });
+});
+
 app.listen(5000, () => {
   console.log('server listening to port 5000');
 });
