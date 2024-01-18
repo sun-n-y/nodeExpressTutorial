@@ -1,5 +1,7 @@
 const express = require('express');
 const logger = require('./logger');
+const authorize = require('./authorize');
+const morgan = require('morgan');
 
 const app = express();
 
@@ -8,7 +10,10 @@ const app = express();
 //app use for middleware function to be applied to all routes
 
 //for any paths after api if included path
-app.use('/api', logger);
+// app.use([logger, authorize]);
+
+//morgan login middleware
+app.use(morgan('tiny'));
 
 app.get('/', (req, res) => {
   res.send('Home');
@@ -23,6 +28,7 @@ app.get('/api/products', (req, res) => {
 });
 
 app.get('/api/items', (req, res) => {
+  console.log(req.user);
   res.send('items');
 });
 
