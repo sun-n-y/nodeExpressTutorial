@@ -13,14 +13,16 @@ const {
   deletePerson,
 } = require('../controllers/people');
 
-router.get('/', getPeople);
+//way 1
+// router.get('/', getPeople);
+// router.post('/', createPerson);
+// router.post('/tc', createPersonTC);
+// router.put('/:id', updatePerson);
+// router.delete('/:id', deletePerson);
 
-router.post('/', createPerson);
-
-router.post('/tc', createPersonTC);
-
-router.put('/:id', updatePerson);
-
-router.delete('/:id', deletePerson);
+//way 2 - chaining the above
+router.route('/').get(getPeople).post(createPerson);
+router.route('/postman').post(createPersonTC);
+router.route('/:id').put(updatePerson).delete(deletePerson);
 
 module.exports = router;
